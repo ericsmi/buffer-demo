@@ -7,7 +7,7 @@
 
 module b(input wire A, output wire Y);
 `ifdef COCOTB_SIM
-    assign Y = A;
+    assign Y = ~A;
 `else
     sky130_fd_sc_hd__inv_1 i(.A(A),.Y(Y));
 `endif
@@ -25,7 +25,7 @@ module tt_um_example (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-    b b(.A(ui_in[0]),.Y(ou_out[0]));
+    b b(.A(ui_in[0]),.Y(uo_out[0]));
         
   assign uo_out[7:1]  = 7'd0;  
   assign uio_out = 0;
