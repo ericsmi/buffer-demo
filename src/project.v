@@ -5,6 +5,14 @@
 
 `default_nettype none
 
+module b(input wire A, output wire Y);
+`ifdef COCOTB_SIM
+    assign Y = A;
+`else
+    sky130_fd_sc_hd__inv_1 i(.A(A),.Y(Y));
+`endif
+endmodule
+
 module tt_um_example (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
@@ -17,7 +25,9 @@ module tt_um_example (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
+    b b(.A(.A(ui_in[0]),.Y(ou_out[0]));
+        
+  assign uo_out[7:1]  = 7'd0;  
   assign uio_out = 0;
   assign uio_oe  = 0;
 
